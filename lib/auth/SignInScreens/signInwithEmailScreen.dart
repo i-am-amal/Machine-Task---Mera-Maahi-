@@ -24,7 +24,6 @@ bool isObscure = true;
 class _SignInWithEmailState extends State<SignInWithEmail> {
   @override
   // void dispose() {
-  //   // TODO: implement dispose
   //   super.dispose();
   //   _emailController.dispose();
   //   _passwordController.dispose();
@@ -42,7 +41,7 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
               EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           child: Form(
             key: _scaffoldKey,
-            child: Container(
+            child: SizedBox(
               width: double.infinity,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -439,14 +438,25 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
               ),
             ),
           )
-        : CircularProgressIndicator(
+        : const CircularProgressIndicator(
             color: Colors.red,
           );
   }
 
+
+
+void login(){
+ String email = _emailController.text;
+    String password = _passwordController.text;
+    
+
+}
+
+
   void LogIn(context) async {
     String email = _emailController.text;
     String password = _passwordController.text;
+
     FirebaseAuth _auth = FirebaseAuth.instance;
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
