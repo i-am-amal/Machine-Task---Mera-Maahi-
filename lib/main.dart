@@ -1,5 +1,6 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 // import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:mere_maahi_dummy/application/bottom_nav_bloc/bottom_nav_bloc.dart';
@@ -18,6 +19,10 @@ final navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  String? token = await FirebaseMessaging.instance.getToken();
+
+  print("Token is $token");
 
   // final _messageStreamController = BehaviorSubject<RemoteMessage>();
   // ZegoUIKit().initLog().then((value) {

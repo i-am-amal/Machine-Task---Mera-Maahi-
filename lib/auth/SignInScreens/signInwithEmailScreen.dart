@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mere_maahi_dummy/Screens/Main/MainScreen.dart';
 import 'package:mere_maahi_dummy/core/app_export.dart';
+import 'package:mere_maahi_dummy/infrastructure/api_services/api_services.dart';
 
 class SignInWithEmail extends StatefulWidget {
   const SignInWithEmail({super.key});
@@ -443,15 +444,14 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
           );
   }
 
+  // void login() {
+  //   String email = _emailController.text;
+  //   String password = _passwordController.text;
 
-
-void login(){
- String email = _emailController.text;
-    String password = _passwordController.text;
-    
-
-}
-
+  //   try {
+  //     final response = ApiServices().userLogin();
+  //   } catch (e) {}
+  // }
 
   void LogIn(context) async {
     String email = _emailController.text;

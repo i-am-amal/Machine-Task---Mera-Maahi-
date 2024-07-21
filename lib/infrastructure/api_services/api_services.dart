@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:dartz/dartz.dart';
 import 'package:mere_maahi_dummy/config/config.dart';
@@ -28,8 +29,7 @@ class ApiServices {
   final dio = Dio();
 //-----------------userRegister-------------------//
 
-  Future<Either<ApiFailures, UserRegisterResponseModel>> userRegister(
-      UserRequest request) async {
+  Future<String?> userRegister(UserRequest request) async {
     try {
       final response = await dio.post(
         Config.userRegister,
@@ -39,17 +39,16 @@ class ApiServices {
         data: jsonEncode(request.toMap()),
       );
 
-      if (response.statusCode == 200) {
-        UserRegisterResponseModel result =
-            UserRegisterResponseModel.fromJson(response.data);
-        return right(result);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // UserRegisterResponseModel result =
+        //     UserRegisterResponseModel.fromJson(response.data);
+        return null;
       } else {
-        return left(const ApiFailures.serverFailure(
-            errorMessage: 'Something went wrong... Please Try again later..'));
+        return ('Something went wrong... Please Try again later..');
       }
     } catch (e) {
-      return left(const ApiFailures.clientFailure(
-          errorMessage: 'OOPS.. Something went wrong..'));
+      log(e.toString());
+      return ('Something went wrong... Please Try again later..');
     }
   }
 
@@ -107,7 +106,7 @@ class ApiServices {
   }
   //-----------------userLogin-------------------//
 
-  Future<Either<ApiFailures, UserLoginResponseModel>> userLogin(
+  Future<(String?, UserLoginResponseModel?)> userLogin(
       UserLoginRequestModel request) async {
     try {
       final response = await dio.post(
@@ -121,14 +120,12 @@ class ApiServices {
       if (response.statusCode == 200) {
         UserLoginResponseModel result =
             UserLoginResponseModel.fromJson(response.data);
-        return right(result);
+        return (null, result);
       } else {
-        return left(const ApiFailures.serverFailure(
-            errorMessage: 'Something went wrong... Please Try again later..'));
+        return ('Something went wrong... Please Try again later..', null);
       }
     } catch (e) {
-      return left(const ApiFailures.clientFailure(
-          errorMessage: 'OOPS.. Something went wrong..'));
+      return ('Something went wrong... Please Try again later..', null);
     }
   }
 

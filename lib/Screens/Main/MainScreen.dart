@@ -26,6 +26,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     CurrentUserRepo().fetchuserdatas();
+    
   }
 
   @override

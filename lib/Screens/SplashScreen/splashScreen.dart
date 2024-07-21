@@ -26,8 +26,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    CurrentUserRepo().fetchuserdatas();
-    // FetchAlUsersDatas().fetchdata();
+    // CurrentUserRepo().fetchuserdatas();
+    FetchAlUsersDatas().fetchdata();
 
     return Scaffold(
       body: SizedBox(

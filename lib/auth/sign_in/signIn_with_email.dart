@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
@@ -7,6 +8,8 @@ import 'package:mere_maahi_dummy/Screens/ChatScreen/push.dart';
 import 'package:mere_maahi_dummy/Screens/Main/MainScreen.dart';
 import 'package:mere_maahi_dummy/Screens/forgotPassword/forgotPassword_screen.dart';
 import 'package:mere_maahi_dummy/auth/sign_up/signUp_with_email.dart';
+import 'package:mere_maahi_dummy/infrastructure/api_services/api_services.dart';
+import 'package:mere_maahi_dummy/models/user_login_request_model/user_login_request_model.dart';
 import '../../Const/Style.dart';
 import '../../Const/const.dart';
 import '../../Const/theme.dart';
@@ -260,15 +263,17 @@ class _SignInScreenState extends State<SignInScreen> {
   void LogIn(context) async {
     String email = _emailTextController.text;
     String password = _passwordTextController.text;
-    FirebaseAuth _auth = FirebaseAuth.instance;
-    try {
-      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+    // FirebaseAuth _auth = FirebaseAuth.instance;
+    final data = UserLoginRequestModel(
         email: email,
         password: password,
-      );
-
-      if (userCredential.user != null) {
-        await CurrentUserRepo().fetchuserdatas();
+        deviceType: "android",
+        deviceToken: "abcd");
+//////////////////////////////////////////
+    try {
+      final response = await ApiServices().userLogin(data);
+      if (response.$1 == null) {
+        userAccountId = response.$2!.data.id;
         showSnackBar(context, "User is successfully logged in");
         Navigator.pushAndRemoveUntil(
             context,
@@ -277,23 +282,43 @@ class _SignInScreenState extends State<SignInScreen> {
       } else {
         showSnackBar(context, "Some error happened in Log In");
       }
-    } on FirebaseAuthException catch (e) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            content: Text(e.message.toString()),
-            actions: [
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('ok'))
-            ],
-          );
-        },
-      );
+    } catch (e) {
+      showSnackBar(context, "Some error happened in Log In");
     }
+
+    //   try {
+    //     UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+    //       email: email,
+    //       password: password,
+    //     );
+
+    //     if (userCredential.user != null) {
+    //       await CurrentUserRepo().fetchuserdatas();
+    //       showSnackBar(context, "User is successfully logged in");
+    //       Navigator.pushAndRemoveUntil(
+    //           context,
+    //           MaterialPageRoute(builder: (home) => const MainScreen()),
+    //           (route) => false);
+    //     } else {
+    //       showSnackBar(context, "Some error happened in Log In");
+    //     }
+    //   } on FirebaseAuthException catch (e) {
+    //     showDialog(
+    //       context: context,
+    //       builder: (context) {
+    //         return AlertDialog(
+    //           content: Text(e.message.toString()),
+    //           actions: [
+    //             ElevatedButton(
+    //                 onPressed: () {
+    //                   Navigator.pop(context);
+    //                 },
+    //                 child: const Text('ok'))
+    //           ],
+    //         );
+    //       },
+    //     );
+    //   }
   }
 
   void showSnackBar(BuildContext context, String message) {

@@ -27,7 +27,7 @@ class HomeAccountDetailTile extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding:  EdgeInsets.all(8.0),
             child: CircleAvatar(
               backgroundImage: NetworkImage(userAllDetails!.profilePic!),
               radius: 30,

@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:developer';
 import 'dart:io';
 import 'dart:math';
 
@@ -16,6 +17,9 @@ import 'package:mere_maahi_dummy/auth/sign_in/signIn_with_email.dart';
 import 'package:mere_maahi_dummy/components/common_input.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:mere_maahi_dummy/infrastructure/api_services/api_services.dart';
+import 'package:mere_maahi_dummy/models/user_login_request_model/user_login_request_model.dart';
+import 'package:mere_maahi_dummy/models/user_request_model.dart/user_request_model.dart';
 
 import '../../Const/Style.dart';
 import '../../Const/const.dart';
@@ -621,38 +625,61 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
               // _signUp();
             });
           });
-          final newurls = await postPhoto(selectedImage?.path);
-          UserCredential userCredential = await FirebaseAuth.instance
-              .createUserWithEmailAndPassword(
-                  email: emailController.text,
-                  password: passwordController.text);
-          try {
-            await FirebaseFirestore.instance
-                .collection('userDetails')
-                .doc(userCredential.user!.uid)
-                .set({
-              'about': 'Hey Iam ${fname.text + lname.text}',
-              'uid': userCredential.user?.uid,
-              'userProfile': newurls,
-              'username': fname.text + lname.text,
-              'gender': selectedVlaue,
-              'dob': selectedDate,
-              'email': emailController.text,
-              'passcode': confirmPasswordController.text
-            });
-          } on FirebaseException catch (e) {
-            return showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                      content: Text(e.message.toString()),
-                      actions: [
-                        TextButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: const Text('Ok'))
-                      ]);
-                });
+
+// account registration
+          final request = UserRequest(
+              firstName: fname.text,
+              lastName: lname.text,
+              email: emailController.text,
+              password: passwordController.text,
+              confirmPassword: confirmPasswordController.text,
+              gender: selectedVlaue,
+              dob: selectedDate.toString(),
+              address: 'Lorem Ipsum',
+              latitude: 60.54,
+              longitude: 79.856,
+              isVerify: true);
+
+          final response = await ApiServices().userRegister(request);
+
+          if (response == null) {
+            print('------------------------form submitted successfully');
+          } else {
+            print('failed');
           }
+
+          //   final newurls = await postPhoto(selectedImage?.path);
+          //   UserCredential userCredential = await FirebaseAuth.instance
+          //       .createUserWithEmailAndPassword(
+          //           email: emailController.text,
+          //           password: passwordController.text);
+          //   try {
+          //     await FirebaseFirestore.instance
+          //         .collection('userDetails')
+          //         .doc(userCredential.user!.uid)
+          //         .set({
+          //       'about': 'Hey Iam ${fname.text + lname.text}',
+          //       'uid': userCredential.user?.uid,
+          //       'userProfile': newurls,
+          //       'username': fname.text + lname.text,
+          //       'gender': selectedVlaue,
+          //       'dob': selectedDate,
+          //       'email': emailController.text,
+          //       'passcode': confirmPasswordController.text
+          //     });
+          //   } on FirebaseException catch (e) {
+          //     return showDialog(
+          //         context: context,
+          //         builder: (context) {
+          //           return AlertDialog(
+          //               content: Text(e.message.toString()),
+          //               actions: [
+          //                 TextButton(
+          //                     onPressed: () => Navigator.pop(context),
+          //                     child: const Text('Ok'))
+          //               ]);
+          //         });
+          //   }
         }
       },
       child: isLoading
