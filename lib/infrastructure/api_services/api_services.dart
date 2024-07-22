@@ -168,7 +168,7 @@ class ApiServices {
         data: jsonEncode(request.toJson()),
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         UploadImageResponseModel result =
             UploadImageResponseModel.fromJson(response.data);
         return right(result);
@@ -194,8 +194,11 @@ class ApiServices {
         // },
         data: jsonEncode(request.toJson()),
       );
+      log(response.statusCode.toString());
 
-      if (response.statusCode == 200) {
+      log(response.data.toString());
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
         UserDetailsResponseModel result =
             UserDetailsResponseModel.fromJson(response.data);
         return right(result);
@@ -267,7 +270,11 @@ class ApiServices {
 
   Future<Either<ApiFailures, LogoutResponseModel>> logOut(
       LogoutRequestModel request) async {
+    log('entering in the service');
+
     try {
+      log('entering in the try');
+
       final response = await dio.post(
         Config.logOut,
         // headers: <String, String>{
@@ -275,16 +282,23 @@ class ApiServices {
         // },
         data: jsonEncode(request.toMap()),
       );
-
+      // log(response.statusCode.toString());
+      // log(response.toString());
       if (response.statusCode == 200) {
+        log(response.statusCode.toString());
+        log(response.toString());
         LogoutResponseModel result =
-            LogoutResponseModel.fromJson(response.data);
+            LogoutResponseModel.fromJson(response.toString());
         return right(result);
       } else {
+        log('entering in the else');
+
         return left(const ApiFailures.serverFailure(
             errorMessage: 'Something went wrong... Please Try again later..'));
       }
     } catch (e) {
+      log(e.toString());
+
       return left(const ApiFailures.clientFailure(
           errorMessage: 'OOPS.. Something went wrong..'));
     }

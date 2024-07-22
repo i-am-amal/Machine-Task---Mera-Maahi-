@@ -16,6 +16,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 // import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
 final navigatorKey = GlobalKey<NavigatorState>();
+ String? userToken;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -23,7 +24,7 @@ void main() async {
   String? token = await FirebaseMessaging.instance.getToken();
 
   print("Token is $token");
-
+userToken = token;
   // final _messageStreamController = BehaviorSubject<RemoteMessage>();
   // ZegoUIKit().initLog().then((value) {
   //   ZegoUIKitPrebuiltCallInvitationService().useSystemCallingUI(

@@ -12,7 +12,7 @@ class UserDetailsRequestModel {
   final String jobRole;
   final String companyName;
   final String workplace;
-  final List<String> passions;
+  final String passions;
   final String profileFor;
   final String aboutMe;
   final int userId;
@@ -52,7 +52,7 @@ class UserDetailsRequestModel {
       jobRole: json['job_role'],
       companyName: json['company_name'],
       workplace: json['workplace'],
-      passions: List<String>.from(json['passions']),
+      passions: json['passions'],
       profileFor: json['profile_for'],
       aboutMe: json['about_me'],
       userId: json['user_id'],

@@ -1,14 +1,14 @@
 import 'dart:convert';
 
 class LogoutResponseModel {
-  bool status;
-  int code;
-  LogoutData data;
+  bool? status;
+  int? code;
+  LogoutData? data;
 
   LogoutResponseModel({
-    required this.status,
-    required this.code,
-    required this.data,
+    this.status,
+    this.code,
+    this.data,
   });
 
   factory LogoutResponseModel.fromJson(String str) =>
@@ -20,21 +20,21 @@ class LogoutResponseModel {
       LogoutResponseModel(
         status: json["status"],
         code: json["code"],
-        data: LogoutData.fromMap(json["data"]),
+        data: json["data"] != null ? LogoutData.fromMap(json["data"]) : null,
       );
 
   Map<String, dynamic> toMap() => {
         "status": status,
         "code": code,
-        "data": data.toMap(),
+        "data": data?.toMap(),
       };
 }
 
 class LogoutData {
-  String message;
+  String? message;
 
   LogoutData({
-    required this.message,
+    this.message,
   });
 
   factory LogoutData.fromMap(Map<String, dynamic> json) => LogoutData(

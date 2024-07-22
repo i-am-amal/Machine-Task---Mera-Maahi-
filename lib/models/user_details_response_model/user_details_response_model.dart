@@ -1,104 +1,77 @@
-import 'dart:convert';
-
 class UserDetailsResponseModel {
-  final bool status;
-  final int code;
-  final UserDetailsData data;
+  final String? message;
+  final UserDetail? userDetail;
 
   UserDetailsResponseModel({
-    required this.status,
-    required this.code,
-    required this.data,
+    this.message,
+    this.userDetail,
   });
 
   factory UserDetailsResponseModel.fromJson(Map<String, dynamic> json) {
     return UserDetailsResponseModel(
-      status: json['status'],
-      code: json['code'],
-      data: UserDetailsData.fromJson(json['data']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'status': status,
-      'code': code,
-      'data': data.toJson(),
-    };
-  }
-}
-
-class UserDetailsData {
-  final String message;
-  final UserDetail userDetail;
-
-  UserDetailsData({
-    required this.message,
-    required this.userDetail,
-  });
-
-  factory UserDetailsData.fromJson(Map<String, dynamic> json) {
-    return UserDetailsData(
       message: json['message'],
-      userDetail: UserDetail.fromJson(json['userDetail']),
+      userDetail: json['userDetail'] != null
+          ? UserDetail.fromJson(json['userDetail'])
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'message': message,
-      'userDetail': userDetail.toJson(),
+      'userDetail': userDetail?.toJson(),
     };
   }
 }
 
 class UserDetail {
-  final String userId;
-  final String religion;
-  final String community;
-  final String relationshipStatus;
-  final String country;
-  final String state;
-  final String city;
-  final String educationCourse;
-  final String educationCollegeName;
-  final String educationCollegePlace;
-  final String working;
-  final String jobRole;
-  final String companyName;
-  final String workplace;
-  final String profileFor;
-  final String aboutMe;
-  final List<String> passions;
-  final String updatedAt;
-  final String createdAt;
-  final int id;
+  final int? id;
+  final int? userId;
+  final String? religion;
+  final String? community;
+  final String? relationshipStatus;
+  final String? country;
+  final String? state;
+  final String? city;
+  final String? educationCourse;
+  final String? educationCollegeName;
+  final String? educationCollegePlace;
+  final String? working;
+  final String? jobRole;
+  final String? companyName;
+  final String? workplace;
+  final String? passions;
+  final String? profileFor;
+  final String? aboutMe;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   UserDetail({
-    required this.userId,
-    required this.religion,
-    required this.community,
-    required this.relationshipStatus,
-    required this.country,
-    required this.state,
-    required this.city,
-    required this.educationCourse,
-    required this.educationCollegeName,
-    required this.educationCollegePlace,
-    required this.working,
-    required this.jobRole,
-    required this.companyName,
-    required this.workplace,
-    required this.profileFor,
-    required this.aboutMe,
-    required this.passions,
-    required this.updatedAt,
-    required this.createdAt,
-    required this.id,
+    this.id,
+    this.userId,
+    this.religion,
+    this.community,
+    this.relationshipStatus,
+    this.country,
+    this.state,
+    this.city,
+    this.educationCourse,
+    this.educationCollegeName,
+    this.educationCollegePlace,
+    this.working,
+    this.jobRole,
+    this.companyName,
+    this.workplace,
+    this.passions,
+    this.profileFor,
+    this.aboutMe,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory UserDetail.fromJson(Map<String, dynamic> json) {
     return UserDetail(
+      id: json['id'],
       userId: json['user_id'],
       religion: json['religion'],
       community: json['community'],
@@ -113,17 +86,21 @@ class UserDetail {
       jobRole: json['job_role'],
       companyName: json['company_name'],
       workplace: json['workplace'],
+      passions: json['passions'],
       profileFor: json['profile_for'],
       aboutMe: json['about_me'],
-      passions: List<String>.from(jsonDecode(json['passions'])),
-      updatedAt: json['updated_at'],
-      createdAt: json['created_at'],
-      id: json['id'],
+      createdAt: json['created_at'] != null
+          ? DateTime.parse(json['created_at'])
+          : null,
+      updatedAt: json['updated_at'] != null
+          ? DateTime.parse(json['updated_at'])
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'user_id': userId,
       'religion': religion,
       'community': community,
@@ -138,12 +115,11 @@ class UserDetail {
       'job_role': jobRole,
       'company_name': companyName,
       'workplace': workplace,
+      'passions': passions,
       'profile_for': profileFor,
       'about_me': aboutMe,
-      'passions': jsonEncode(passions),
-      'updated_at': updatedAt,
-      'created_at': createdAt,
-      'id': id,
+      'created_at': createdAt?.toIso8601String(),
+      'updated_at': updatedAt?.toIso8601String(),
     };
   }
 }

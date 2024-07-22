@@ -1,9 +1,14 @@
+import 'dart:developer';
+
+import 'package:dartz/dartz.dart' show Either;
 import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
 // import 'package:get/get_core/src/get_main.dart';
 import 'package:mere_maahi_dummy/Screens/ExtraScreen/savebutton.dart';
 import 'package:mere_maahi_dummy/Screens/Main/MainScreen.dart';
 import 'package:mere_maahi_dummy/Screens/Passions/PassionchipViewItem.dart';
+import 'package:mere_maahi_dummy/infrastructure/api_failures/api_failures.dart';
+import 'package:mere_maahi_dummy/models/user_details_response_model/user_details_response_model.dart';
 
 import '../../Widget/CustomImageViewer.dart';
 import '../../core/utils/image_constant.dart';
@@ -56,14 +61,26 @@ class _PassionsScreenState extends State<PassionsScreen> {
                 height: 40,
               ),
               InkWell(
-                onTap: () {
-                  saveProfile();
+                onTap: () async {
+                  Either<ApiFailures, UserDetailsResponseModel> response =
+                      await saveProfile();
                   // Get.to(const SignUpScreen(),transition: Transition.rightToLeftWithFade);
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                          builder: (builder) => const MainScreen()),
-                      (route) => false);
+
+                  response.fold(
+                    (l) {
+                      print(l);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Something went wrong!')));
+                    },
+                    (r) {
+                      log(r.toString());
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (builder) => const MainScreen()),
+                          (route) => false);
+                    },
+                  );
                 },
                 child: Container(
                   width: 295,

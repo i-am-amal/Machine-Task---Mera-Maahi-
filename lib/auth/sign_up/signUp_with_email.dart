@@ -1,10 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:developer';
+// import 'dart:developer';
 import 'dart:io';
 import 'dart:math';
-
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -18,7 +17,7 @@ import 'package:mere_maahi_dummy/components/common_input.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:mere_maahi_dummy/infrastructure/api_services/api_services.dart';
-import 'package:mere_maahi_dummy/models/user_login_request_model/user_login_request_model.dart';
+// import 'package:mere_maahi_dummy/models/user_login_request_model/user_login_request_model.dart';
 import 'package:mere_maahi_dummy/models/user_request_model.dart/user_request_model.dart';
 
 import '../../Const/Style.dart';
@@ -647,7 +646,7 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
           } else {
             print('failed');
           }
-
+//firebase integration
           //   final newurls = await postPhoto(selectedImage?.path);
           //   UserCredential userCredential = await FirebaseAuth.instance
           //       .createUserWithEmailAndPassword(
